@@ -63,7 +63,6 @@ gulp.task('clean', function() {
 // Build
 gulp.task('build', function() {
 	return gulp.src(['app/**/*.*', '!app/sass/*.*', '!app/pug/*.*'])
-})
 		.pipe(gulp.dest('build'));
 });
 
