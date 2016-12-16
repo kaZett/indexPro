@@ -6,7 +6,7 @@ const gulp = require('gulp4'),
 	  plumber = require('gulp-plumber'),
 	  newer = require('gulp-newer'),
 	  bsync = require('browser-sync').create(),
-	  clean = require('gulp-clean');
+	  del = require('del');
 
 // Helpers
 let plumberSetup = {
@@ -55,13 +55,20 @@ gulp.task('server', function() {
 	bsync.watch(['app/*.html', 'app/css/*.css']).on('change', bsync.reload);
 });
 
+// Clean
+gulp.task('clean', function() {
+	return del('build');
+});
+
 // Build
 gulp.task('build', function() {
-	gulp.src('build/')
-		.pipe(clean());
 	return gulp.src(['app/**/*.*', '!app/sass/*.*', '!app/pug/*.*'])
-		.pipe(gulp.dest('build/'));
 })
+		.pipe(gulp.dest('build'));
+});
+
+// Dev
+gulp.task('dev', gulp.series('clean', 'build'));
 
 // Default
 gulp.task('default', gulp.parallel('watch', 'server'));
